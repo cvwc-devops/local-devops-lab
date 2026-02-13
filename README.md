@@ -186,4 +186,73 @@ terraform init
 terraform apply
 ```
 ---
+## Using GitHub Actions
 
+1. Create file: .github/workflows/ansible.yml
+```
+name: Ansible (local)
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Ansible
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+
+      - name: Run playbook
+        run: |
+          ansible-playbook -i hosts playbook.yml
+```
+
+2. Workflow example (SSH to hosts)
+```
+name: Ansible (remote)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Ansible
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+
+      - name: Load SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Run playbook
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
+        run: |
+          ansible-playbook -i hosts playbook.yml
+```
+
+set ANSIBLE_HOST_KEY_CHECKING=False because CI runners are ephemeral; better is to manage known_hosts
+
+Github Actions [marketplace](https://github.com/marketplace/actions/run-ansible-playbook)
+---
