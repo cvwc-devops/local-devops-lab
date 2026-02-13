@@ -1,0 +1,153 @@
+# GENERAL PROJECT STRUCTURE
+node_mods/
+dist/
+build/
+out/
+.env
+.env.*
+!.env.example
+!.env.template
+.DS_Store
+Thumbs.db
+*.log
+*.pid
+*.seed
+tmp/
+temp/
+.cache/
+coverage/
+.nyc_output/
+logs/
+*.bak
+*.backup
+*.old
+*.orig
+.vscode/
+.idea/
+.cursor/
+
+# FRONTEND
+frontend/node_mods/
+frontend/dist/
+frontend/.cache/
+frontend/.parcel-cache/
+frontend/.eslintcache
+
+# BACKEND
+backend/node_mods/
+backend/.eslintcache
+backend/coverage/
+backend/logs/
+backend/jest_cache/
+backend/.env
+backend/.env.*
+
+# DATABASE
+database/*.backup
+database/*.dump
+pgdata/
+*.sqlite
+*.sqlite3
+*.db
+
+# DOCKER
+docker-compose.override.yml
+.docker/
+docker-logs/
+
+# K8s / CLOUD / DEVOPS
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars*
+# Kubernetes
+kubeconfig
+*.kubeconfig
+k8s/.env
+k8s/secrets.yaml
+k8s/*secrets*.yaml
+k8s/*secret*.yaml
+# Secrets
+secrets/
+*secrets*.yaml
+*secret*.yaml
+*.pem
+*.crt
+*.key
+*.pfx
+*.p12
+*.der
+*.p7b
+*.p7c
+*.pem
+id_rsa
+id_rsa.pub
+# Cloud
+.azure/
+.aws/
+.gcloud/
+service-account.json
+.vault_pass
+.vagrant/
+
+
+# CI/CD pipelines
+!.github/
+!.github/workflows/
+!.gitlab-ci.yml
+!azure-pipelines.yml
+
+# PROJECT SPECIFIC
+user-data-backup/
+performance-reports/
+load-test-results/
+docs/build/
+api-docs/generated/
+nginx/conf.d/*.local.conf
+traefik/*.local.yml
+
+# EXCEPTIONS (KEEP THESE FILES)
+!README.md
+!Dockerfile
+!docker-compose.yml
+!.dockerignore
+!CHANGELOG.md
+!LICENSE
+!database/init.sql
+!database/seed.sql
+
+# ADDITIONAL SECURITY PATTERNS
+# Environment files
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.test
+.env.development.local
+.env.test.local
+.env.production.local
+# Certificate files
+*.pem
+*.crt
+*.key
+*.pfx
+*.p12
+*.der
+*.p7b
+*.p7c
+# Secret files
+*secret*
+*secrets*
+*password*
+*credential*
+*token*
+*api_key*
+*apikey*
+!.env.template
+!k8s/secrets.template.yaml
+# Scripts with secrets
+scripts/*secret*
+scripts/*deploy-with-secrets*
+backend.log
