@@ -1,0 +1,68 @@
+groups:
+  - name: loki-app-alerts
+    interval: 1m
+    rules:
+      - alert: LokiHighErrorLogRate
+        expr: |
+          sum by (cluster, environment, namespace, service) (
+            rate({job="docker"} | json | level="error"[5m])
+          ) > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "High error log rate for {{ $labels.service }}"
+          description: "Error log rate has stayed above 0.05 lines/sec for 10m in {{ $labels.namespace }}."
+
+      - alert: LokiHighErrorRatio
+        expr: |
+          (
+            service:log_errors_per_second:rate5m
+            /
+            service:log_lines_per_second:rate5m
+          ) > 0.05
+        for: 10m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "High error ratio for {{ $labels.service }}"
+          description: "More than 5% of log lines are errors for 10m."
+
+      - alert: LokiServiceMissingLogs
+        expr: |
+          absent_over_time({namespace="prod", service="checkout-api"}[15m])
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "No logs from checkout-api"
+          description: "No logs seen for checkout-api for 15m."
+
+      - alert: LokiAuthFailuresBurst
+        expr: |
+          sum by (cluster, environment, namespace, service) (
+            count_over_time({namespace="prod"} |= "authentication failed"[10m])
+          ) > 50
+        for: 10m
+        labels:
+          severity: warning
+          team: security
+        annotations:
+          summary: "Authentication failures increased for {{ $labels.service }}"
+          description: "More than 50 auth failure log lines in 10m."
+
+      - alert: LokiCollectorPipelineErrors
+        expr: |
+          sum by (cluster, environment) (
+            count_over_time({service="alloy"} |= "error"[10m])
+          ) > 20
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "Alloy pipeline errors detected"
+          description: "Collector errors are recurring and may affect log ingestion."
