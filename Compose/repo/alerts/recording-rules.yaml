@@ -1,0 +1,15 @@
+groups:
+  - name: loki-recording-rules
+    interval: 1m
+    rules:
+      - record: service:log_errors_per_second:rate5m
+        expr: |
+          sum by (cluster, environment, namespace, service) (
+            rate({job="docker"} | json | level="error"[5m])
+          )
+
+      - record: service:log_lines_per_second:rate5m
+        expr: |
+          sum by (cluster, environment, namespace, service) (
+            rate({job="docker"}[5m])
+          )
