@@ -83,7 +83,7 @@ Zero cost — No surprise bills at the end of the month, Works offline, No secur
   
 **Make it executable**
 - chmod +x ./kind
-- 
+  
 **Move it to your path**
 - sudo mv ./kind /usr/local/bin/kind
 
@@ -141,8 +141,7 @@ localhost ansible_connection=local
 
 2. Create a file called playbook.yml :
 
-```yaml
----
+```
 - name: Test playbook
   hosts: local
   tasks:
@@ -172,7 +171,9 @@ localhost ansible_connection=local
 - brew install terraform
 
 ### Testing Terraform:
+
 1. Create a file called main.tf with:
+
 ```
 resource "local_file" "hello" {
   content  = "Hello, Terraform!"
@@ -181,14 +182,18 @@ resource "local_file" "hello" {
 ```
 
 2. Run:
+
 ```
 terraform init
 terraform apply
 ```
+
 ---
+
 ## Using GitHub Actions
 
 1. Create file: .github/workflows/ansible.yml
+   
 ```
 name: Ansible (local)
 
@@ -217,6 +222,7 @@ jobs:
 ```
 
 2. Workflow example (SSH to hosts)
+   
 ```
 name: Ansible (remote)
 
@@ -256,3 +262,6 @@ set ANSIBLE_HOST_KEY_CHECKING=False because CI runners are ephemeral; better is 
 
 Github Actions [marketplace](https://github.com/marketplace/actions/run-ansible-playbook)
 ---
+
+**Source:**  https://open.substack.com/pub/stackinsight/p/package-a-compose-k8s-loki-stack
+
